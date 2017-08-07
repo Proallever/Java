@@ -1,0 +1,1 @@
+在eclipse里面的一个maven dynamic web项目实现了基本的Spring的应用
