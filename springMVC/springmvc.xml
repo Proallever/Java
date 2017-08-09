@@ -8,8 +8,33 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 <context:component-scan base-package="A"></context:component-scan>
+<context:property-placeholder location="classpath:db.properties" />
+
+<bean id = "dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+	<property name="user" value="${db.user}"></property>
+	<property name="password" value="${db.password}"></property>
+	<property name="jdbcUrl" value="${db.jdbcUrl}"></property>
+	<property name="driverClass" value="${db.driverClass}"></property>
+</bean>
+
+<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+<property name="dataSource" ref="dataSource"></property>
+</bean>
+
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	<property name="prefix" value="/WEB-INF/views/" ></property>
 	<property name="suffix" value=".jsp"></property>
 </bean>
+
+<!--  
+<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+</bean>
+-->
+
+<!-- 直接返回页面 -->
+<!--  <mvc:view-controller path="/hehe" view-name="myView"/>  -->
+<mvc:view-controller path="/hehe" view-name="success"/>
+<mvc:annotation-driven></mvc:annotation-driven>
+
+
 </beans>
