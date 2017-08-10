@@ -9,11 +9,11 @@ public class FileResolver {
 	
 	static int depth = 0;
 	public void parseFile(File file){
-		printFile(file , depth);
 		if(file.isFile()){
 			printFile(file , depth);
 			return;
 		}else if(file.isDirectory()){
+			printFile(file , depth);
 			depth++;
 			File[] files = file.listFiles();
 			if(files == null ){
@@ -22,7 +22,6 @@ public class FileResolver {
 			for(File f : files){
 				parseFile(f);
 			}
-			printFile(file , depth);
 			depth--;
 		}else{
 			throw new RuntimeException("该文件既不是普通文件也不是路径");
