@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-8-10 17:42:55 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="A.Person" table="PERSON">
+    
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="age" type="int">
+            <column name="AGE" />
+        </property>
+        <property name="height" type="double">
+            <column name="HEIGHT" />
+        </property>
+        <property name="birth" type="java.util.Date">
+            <column name="BIRTH" />
+        </property>
+        
+        <!-- 对应于类的组成，构件。。 -->
+        <component name="car" class="A.Car" lazy="true">
+        	<property name="brand" column="car_brand" type="java.lang.String"/>
+        	<property name="price" column="car_price" type="double"/>
+        	<component name="engine" class="A.Engine" lazy="true">
+        		<property name="brand" column="engine_brand" type="java.lang.String"></property>
+        		<property name="price" column="engine_price" type="double"></property>
+        	</component>
+        </component>
+    </class>
+</hibernate-mapping>
