@@ -24,5 +24,9 @@
    		<property name="hbm2ddl.auto">update</property>
    		
    		<mapping resource="A/Person.hbm.xml"/>
+   		<mapping resource="A/Emperor.hbm.xml"/>
+   		<mapping resource="A/Princess.hbm.xml"/>
+   		<mapping resource="A/Husband.hbm.xml"/>
+   		<mapping resource="A/Wife.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

@@ -141,5 +141,59 @@ public class HibernateTest {
 		session.save(p);
 	}
 	
+	/*
+	 * 测试一对多关系
+	 */
+	@Test
+	public void testManyToOne(){
+		Emperor emp = new Emperor("zyf" , 120);
+		Princess pri = new Princess("zy" ,98 , emp);
+		Princess pri2 = new Princess("zy2",98,emp);
+		session.save(pri);
+		session.save(emp);
+		session.save(pri2);
+	}
+	/*
+	 * 测试关联查询 
+	 */
+	@Test
+	public void testManyToOneQuery(){
+		Princess ps= session.get(Princess.class, 2);
+		System.out.println(ps);
+	}
+	
+	/*
+	 * 测试双向OneTOMany
+	 */
+	@Test
+	public void testManyToOneDeque(){
+		Emperor ps = session.get(Emperor.class, 4);
+		System.out.println(ps.getPrincesses());
+	}
+	
+	/*
+	 * 测试双向一对一
+	 */
+	@Test
+	public void testOneToOne(){
+		Husband husband = new Husband();
+		Wife wife = new Wife("zy",husband);
+		Wife wife2 = new Wife("zy2",husband);
+		husband.setWife(wife);
+		husband.setName("zyf");
+		session.save(husband);
+		session.save(wife);
+		session.save(wife2);
+	}
+	
+	/*
+	 * 测试一对一查询 
+	 */
+	@Test
+	public void testOneToOneQuery(){
+		Husband hus = session.get(Husband.class, 3);
+		System.out.println(hus.getWife().getHusband().getName());
+	}
+	
 	
 }
