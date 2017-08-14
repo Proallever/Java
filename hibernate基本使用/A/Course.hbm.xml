@@ -3,14 +3,22 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2017-8-14 9:21:52 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="A.Husband" table="HUSBAND">
+    <class name="A.Course" table="COURSE">
         <id name="id" type="int">
             <column name="ID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
+        
         <property name="name" type="java.lang.String">
             <column name="NAME" />
         </property>
-        <one-to-one name="wife" class="A.Wife"></one-to-one>
+        
+        <set name="students" table="STUDENT_COURSE" >
+            <key>
+                <column name="COURSE_ID" />
+            </key>
+            <many-to-many class="A.Student" column="STUDENT_ID" />
+        </set>
+        
     </class>
 </hibernate-mapping>

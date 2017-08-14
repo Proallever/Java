@@ -5,8 +5,11 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -195,5 +198,114 @@ public class HibernateTest {
 		System.out.println(hus.getWife().getHusband().getName());
 	}
 	
+	/*
+	 * 测试多对多关系
+	 */
+	@Test
+	public void testManyToMany(){
+		Student stu1 = new Student("zyf") ;
+		Student stu2 = new Student("zy");
+		
+		Course cos1 = new Course("线性代数");
+		Course cos2 = new Course("近世代数");
+		Course cos3 = new Course("微分几何");
+		Course cos4 = new Course("拓扑学");
+		
+		stu1.getCourses().add(cos1);
+		stu1.getCourses().add(cos2);
+		stu1.getCourses().add(cos3);
+		
+		stu2.getCourses().add(cos3);
+		stu2.getCourses().add(cos4);
+		
+		session.save(cos1);
+		session.save(cos2);
+		session.save(cos3);
+		session.save(cos4);
+		
+		session.save(stu1);
+		session.save(stu2);
+		
+		System.out.println(stu1);
+		System.out.println(stu2);
+	}
 	
+	/*
+	 * 测试多对多查询
+	 */
+	@Test
+	public void testManyToManyQuery(){
+		Student zyf = session.get(Student.class, 11);
+		System.out.println(zyf);
+	}
+	
+	/*
+	 * 测试HQL
+	 */
+	@Test
+	public void testHQL(){
+		String hql = "from Person p where p.height > ? and p.name like ?";
+		Query query = session.createQuery(hql);
+		query.setInteger(0,167)
+			.setString(1, "%zoe%");
+		System.out.println(query.list());
+	}
+	
+	/*
+	 * 测试HQL，还可以命名参数
+	 */
+	@Test
+	public void testHQL2(){
+		String hql = "from Person p where p.height > :height and p.name like :name";
+		Query query = session.createQuery(hql);
+		query.setDouble("height",167)
+			.setString("name", "%zoe%");
+		System.out.println(query.list());
+	}
+	
+	/*
+	 * 测试HQL分页查询和投影
+	 * 投影出来获得数组的列表
+	 */
+	@Test
+	public void testHQL3(){
+		String hql = "select p.name , p.age from Person p";
+		Query query = session.createQuery(hql);
+		
+		int pageNum = 2;
+		int pageSize = 5;
+		
+		query.setFirstResult((pageNum-1)*pageSize);
+		query.setMaxResults(pageSize);
+		List<Object []> list = query.list();
+		for(Object[] o : list){
+			System.out.println(Arrays.asList(o));
+		}
+	}
+	
+	/*
+	 * 测试关联查询
+	 */
+	@Test
+	public void testJoinQuery(){
+		String hql = "select s.id , s.name , cour.name from Student s join s.courses cour"; 
+		Query query = session.createQuery(hql);
+		List<Object []> list = query.list();
+		for(Object[] o : list){
+			System.out.println(Arrays.asList(o));
+		}
+	}
+	
+	/*
+	 * 测试原生sql查询
+	 */
+	@Test
+	public void testSQL(){
+		String sql = "select * from course where id = 22";
+		Query query = session.createSQLQuery(sql);
+		List<Object []> list = query.list();
+		for(Object[] o : list){
+			System.out.println(Arrays.asList(o));
+		}
+	}
 }
