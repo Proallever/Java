@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Table(name="person")
 @Entity
@@ -43,6 +45,7 @@ public class Person {
 		this.id = id;
 	}
 	
+	@Column(name="name",length=50,nullable=true)
 	public String getName() {
 		return name;
 	}
@@ -58,11 +61,17 @@ public class Person {
 	}
 	
 	@Column(name="birthday")
+	@Temporal(TemporalType.DATE)
 	public Date getBirth() {
 		return birth;
 	}
 	public void setBirth(Date birth) {
 		this.birth = birth;
+	}
+	
+	@javax.persistence.Transient
+	public String getInfo(){
+		return this.name + this.age;
 	}
 	
 }

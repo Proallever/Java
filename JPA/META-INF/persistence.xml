@@ -3,7 +3,14 @@
 	<persistence-unit name="JPA" transaction-type="RESOURCE_LOCAL">
 		
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
 		<class>A.Person</class>
+		<class>A.Office</class>
+		<class>A.Shangbanzu</class>
+		<class>A.Door</class>
+		<class>A.Lock</class>
+		<class>A.Group</class>
+		<class>A.Member</class>
 	
 		<!-- 一些属性  -->
 		<properties>

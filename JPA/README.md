@@ -2,4 +2,6 @@
 不知道怎么同时用maven和jpa....    
 新建了maven项目不能见persistence.xml建jpa项目就没的maven了...    
 手动加jar包！只为了完成demo。   
-里面很多东西都还没明白。
+里面很多东西都还没明白。   
+***
+继续继续，框架而已
