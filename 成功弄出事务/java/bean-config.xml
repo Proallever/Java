@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		
+
+	<!-- 配置数据源 -->
+	<context:property-placeholder location="classpath:db.properties" />
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="username" value="${db.user}"></property>
+		<property name="password" value="${db.password}"></property>
+		<property name="driverClassName" value="${db.driverClass}"></property>
+		<property name="url" value="${db.jdbcUrl}"></property>
+	</bean>
+	 
+	<!-- 配置JPA -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+			</bean>
+		</property>
+		<property name="packagesToScan" value="A"></property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>				
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop> 
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">  
+    	<property name="entityManagerFactory" ref="entityManagerFactory" />  
+	</bean> 
+	 
+	<tx:annotation-driven transaction-manager="transactionManager" />  
+	 
+	 <context:component-scan base-package="A"></context:component-scan>
+	 
+</beans>
