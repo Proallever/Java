@@ -1,0 +1,3 @@
+<ehcache>
+	<cache name="students" maxElementsInMemory="1000" />
+</ehcache>

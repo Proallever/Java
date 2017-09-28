@@ -27,5 +27,12 @@ public class Student {
 		this.name = name;
 	}
 	
+	public Student(String name) {
+		super();
+		this.name = name;
+	}
 	
+	public Student(){
+		
+	}
 }

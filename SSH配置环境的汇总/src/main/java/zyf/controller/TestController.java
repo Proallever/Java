@@ -44,6 +44,10 @@ public class TestController {
 		throw new RuntimeException("haha");
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/test3")
+	public Student test3(){
+		return new Student("zyf");
+	}
 	
 }
