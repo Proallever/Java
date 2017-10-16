@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 引入dataSource配置参数 -->
+	<properties resource="db.properties">
+		<!-- 开启用:来设定默认值 -->
+		<property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
+	</properties>
+	
+	<!-- mybatis的一些配置 -->
+	<settings>
+	  	<!-- 映射器中的缓存的全局开关 -->
+	  	<setting name="cacheEnabled" value="true"/>
+	  	<!-- 是否延迟加载 -->
+	  	<setting name="lazyLoadingEnabled" value="true"/>
+	  	<!-- 单一语句返回多个结果集 -->
+	  	<setting name="multipleResultSetsEnabled" value="true"/>
+	  	<!-- 使用列标签代替列名 -->
+	 	<setting name="useColumnLabel" value="true"/>
+	 	<!-- 强制jdbc来生成主键 -->
+	  	<setting name="useGeneratedKeys" value="false"/>
+	  	<!-- 指定怎么映射 1.NONE 不映射 2.PARTIAL 不嵌套 3.FULL 嵌套映射 -->
+	  	<setting name="autoMappingBehavior" value="PARTIAL"/>
+	  	<!-- 发现未知属性的处理方式  1.NONE:没反应  2.WARNING 输出提醒日志 3.FAILING 映射失败 -->
+	  	<setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+	  	<!-- 执行器 1.SIMPLE 普通执行器 2.REUSE 重用处理语句 3.BATCH 将重用语句批量更新 -->
+	  	<setting name="defaultExecutorType" value="SIMPLE"/>
+	  	<!-- 等待数据库的超时时间 单位是秒 -->
+	  	<setting name="defaultStatementTimeout" value="25"/>
+	  	<!-- 获取结果集的数量 -->
+	  	<setting name="defaultFetchSize" value="100"/>
+	  	<!-- 允许分页 -->
+	  	<setting name="safeRowBoundsEnabled" value="false"/>
+	  	<!-- 自动驼峰规则 -->
+	 	<setting name="mapUnderscoreToCamelCase" value="false"/>
+	 	
+	  	<setting name="localCacheScope" value="SESSION"/>
+	  	<setting name="jdbcTypeForNull" value="OTHER"/>
+	 	 <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+	</settings>
+	
+	<!-- 指定一些别名，一些常见java类型已经有了别名 -->
+	<typeAliases>
+		<typeAlias type="zyf.Person" alias="Person"/>
+	</typeAliases>
+	
+	<!-- 一些环境，大概可以有测试环境，正式环境这样 -->
+    <environments default="development">
+      	<environment id="development">
+      	<!-- 如果是spring 可以不配置 -->
+      	<transactionManager type="JDBC"/>
+      	<dataSource type="POOLED">
+       	 	<property name="driver" value="${driver}"/>
+        	<property name="url" value="${url}"/>
+        	<property name="username" value="${username}"/>
+        	<property name="password" value="${password}"/>
+      	</dataSource>
+    	</environment>
+ 	 </environments>
+  
+  	<!-- 到哪里去找映射文件 -->
+  	<mappers>
+    	<mapper resource="mappers/testMapper.xml"/>
+  	</mappers>
+</configuration>
