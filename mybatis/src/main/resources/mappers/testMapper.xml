@@ -3,13 +3,42 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="A.AA.TestMapper">
+	<resultMap type="zyf.Person" id="personResultMap">
+		<id property="id" column="id"/>
+		<result property="age" column="age"/>
+		<result property="name" column="name"/>
+		<result property="height" column="height"/>
+		<result property="isDelete" column="is_delete"/>
+	</resultMap>
+	
+	<sql id="fields">
+		id ,name ,height ,age ,is_delete
+	</sql>
+
 	<!-- 通过TypeHandler来推断出传入的参数 -->
-  	<select id="selectPerson" resultType="zyf.Person">
-    	select * from person where id = #{id}
+  	<select id="selectPerson" resultMap="personResultMap">
+    	select <include refid="fields"></include> from person where id = #{id}
+ 	</select>
+
+ 	<select id="selectPersonWithCondition" resultMap="personResultMap">
+    	select <include refid="fields"></include> from person 
+    	where is_delete = 0 
+    	<if test="id != null">
+    		and id = #{id}
+    	</if>
+    	<if test="name != null">
+    		and name = #{name}
+    	</if>
+    	<if test="age != null">
+    		and age = #{age}
+    	</if>
+    	<if test="height != null">
+    		and height = #{height}
+    	</if>
  	</select>
  	
- 	<insert id="insertPerson">
- 	 	insert into person (name) values (#{name})
+ 	<insert id="insertPerson" parameterType="zyf.Person">
+ 	 	insert into person (name ,height ,age) values (#{name} ,#{height} ,#{age})
 	</insert>
 	
 	<update id="updatePerson">

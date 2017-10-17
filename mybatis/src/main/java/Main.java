@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -19,10 +22,14 @@ public class Main {
 		
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
-		  Person p = (Person) session.selectOne("A.AA.TestMapper.selectPerson",1);
+		  Map<String, Object> condition = new HashMap<>() ; 
+		  condition.put("name", "zzzoe");
+		  List<Person> p = session.selectList("A.AA.TestMapper.selectPersonWithCondition" , condition);
 		  System.out.println(p);
-		  session.insert("A.AA.TestMapper.insertPerson" , "zzz");
-//		  session.update("A.AA.TestMapper.updatePerson");
+		  
+//		     可以直接插入pojo
+//		  Person person = new Person("zzzoe" ,22 ,170.0);
+//		  session.insert("A.AA.TestMapper.insertPerson" , person);
 		  session.commit();
 		} finally {
 		  session.close();
